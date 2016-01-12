@@ -30,26 +30,52 @@ body.landing {
 
 .selling-points {
   position: relative;
+  margin-top: 2rem;
 }
 
 .point {
+  height: 15rem;
+  margin-right: .5rem;
+  margin-left: .5rem;
+  background-color: rgb(49, 21, 53);
   position: relative;
   padding: 2rem;
   text-align: center;
-  opacity: 0;
-  -webkit-transform: scaleX(0.9) translateY(3rem);
-  -moz-transform: scaleX(0.9) translateY(3rem);
-  transform: scaleX(0.9) translateY(3rem);
-  -webkit-transition: all 0.25s ease-in-out;
-  -moz-transition: all 0.25s ease-in-out;
-  transition: all 0.25s ease-in-out;
-  -webkit-transition-delay: 0.2s;
-  -moz-transition-delay: 0.2s;
-  transition-delay: 0.2s;
+  -webkit-transform: perspective(500);
+  -webkit-transform-style: preserve-3d;
+  -webkit-transition: .5s;
+}
+
+.point:hover {
+  -webkit-transform: perspective(500) rotateX(90deg) translateY(-3em) translateZ(3em);
+}
+
+.front-view {
+  box-shadow: 0 20px 15px -10px hsla(0, 0%, 0%, .25);
+  display: block;
+  height: 100%;
+  -webkit-transition: .5s;
+}
+
+.point:hover .front-view {
+  box-shadow: none;
 }
 
 .point .point-title {
   font-size: 1.25rem;
+}
+
+.point-description {
+  background-color: rgb(49, 21, 53);
+  color: #fff;
+  padding: 1.5em;
+  -webkit-transform: rotateX(-90deg);
+  -webkit-transform-origin: 100% 0;
+  -webkit-transition: .5s;
+}
+
+point:hover .point-description {
+  box-shadow: 0 20px 15px -10px hsla(0, 0%, 0%, .25);
 }
 
 .ion-music-note,
