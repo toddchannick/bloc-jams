@@ -12,8 +12,8 @@ var $nextButton = $('.main-controls .next');
 
 $(document).ready(function() {
   setCurrentAlbum(albumPicasso); 
-  $previousButton.click(previousSong);
-  $nextButton.click(nextSong);
+  $previousButton.click(changeSong('prev'));
+  $nextButton.click(changeSong('next'));
 });
 
 //functions defined below//
@@ -112,6 +112,54 @@ var getSongNumberCell = function(number) {
 var trackIndex = function(album, song) {
      return album.songs.indexOf(song);
  };
+
+var changeSong = function(direction){
+  var songIndex = trackIndex(currentAlbum,currentSongFromAlbum);
+  
+  if (direction === 'next'){
+    console.log("next song");
+    var getLastSongNumber = function(i){
+      return i == 0 ? currentAlbum.songs.length : i;
+    };
+    
+    songIndex++;
+    
+    if (songIndex >= currentAlbum.songs.length){
+      songIndex = 0;
+    }
+    
+    updateInfo(songIndex, getLastSongNumber);
+  }
+  else if (direction === 'prev') {
+    var getLastSongNumber = function(i){
+      return i == (currentAlbum.songs.length - 1) ? 1 : i + 2;
+    };
+    
+    songIndex--;
+    
+    if (songIndex < 0){
+      songIndex = currentAlbum.songs.length - 1;
+    }  
+    updateInfo(songIndex, getLastSongNumber);
+  }
+};
+
+var updateInfo = function(songIndex, getLastSongNumber){
+  currentlyPlayingSongNumber = songIndex + 1;
+  currentSongFromAlbum = currentAlbum.songs[songIndex];
+
+  $('.currently-playing .song-name').text(currentSongFromAlbum.name);
+  $('.currently-playing .artist-name').text(currentAlbum.artist);
+  $('.currently-playing .artist-song-mobile').text(currentSongFromAlbum.name + " - " + currentAlbum.name);
+  $('.main-controls .play-pause').html(playerBarPauseButton);
+
+  var lastSongNumber = getLastSongNumber(songIndex);
+  var $nextSongNumberCell = getSongNumberCell(currentlyPlayingSongNumber);
+  var $lastSongNumberCell = $('.song-item-number[data-song-number="' + lastSongNumber + '"]');
+
+  $nextSongNumberCell.html(pauseButtonTemplate);
+  $lastSongNumberCell.html(lastSongNumber);
+};
 
 var nextSong = function(){
   var songIndex = trackIndex(currentAlbum,currentSongFromAlbum);
